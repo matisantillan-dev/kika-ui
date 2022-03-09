@@ -1,9 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 
-//styles
-import "./button.styles.css"
-
 interface Props {
   color?: string
   size?: string
@@ -11,31 +8,26 @@ interface Props {
   className?: string
 }
 
-const ButtonHelper: React.FC<Props> = ({
-  color,
-  size,
-  variant,
-  children,
-  className,
-}) => {
-  return (
-      <button className={className}>{children}</button>
-  )
+const ButtonHelper: React.FC<Props> = ({ children, className }) => {
+  return <button className={className}>{children}</button>
 }
 
+//component
 export const Button = styled(ButtonHelper)`
-  border: ${(props) => (props.color ? `2px solid ${props.color}` : null)};
-  background: white;
-  color: ${(props) => (props.color ? props.color : "white")};
+  border: ${(props) => props.color && `2px solid ${props.color}`};
+  background: ${(props) => (props.variant === "outline" ? "white" : props.color)};
+  color: ${(props) => (props.color && props.variant === "outline" ? props.color : "white")};
   border-radius: 8px;
   position: relative;
   font-weight: bold;
   padding: 8px 16px;
-  margin: .5%;
+  margin: 0.5%;
   outline: none;
   z-index: 3;
+
   &:hover {
     color: #f1f1f1;
+    cursor: pointer;
   }
   &:before {
     z-index: -1;
@@ -45,8 +37,7 @@ export const Button = styled(ButtonHelper)`
     left: 0;
     bottom: 0;
     right: 100%;
-    background: ${(props) =>
-      props.variant !== 'solid' && props.color ? props.color : "white"};
+    background: ${(props) => props.color && props.color};
     color: #f1f1f1;
     transition: 0.3s ease-in;
   }
